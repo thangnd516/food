@@ -1,15 +1,18 @@
 import { NextResponse } from "next/server";
-// import dbConect from "@/utils/dbConect"
-// import User from "@/model/user"
+import dbConect from "@/utils/dbConnect.js"
+import User from "@/model/User.js"
 
 import bcrypt from "bcrypt"
 
 export async function POST() {
-    const body = await req.json();
-    const { name, email, password } = body;
+
+    await dbConect();
+
 
     try {
-        const existingUser = await UserActivation.findOne({ email })
+        const body = await req.json();
+        const { name, email, password } = body;
+        const existingUser = await User.findOne({ email })
         if (existingUser) {
             return NextResponse.json(
                 { err: "email already in use" },
@@ -26,6 +29,4 @@ export async function POST() {
         console.log("error", error);
         return NextResponse.json({ err: error.message }, { status: 500 });
     }
-
-
 }
