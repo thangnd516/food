@@ -20,6 +20,7 @@ import Drawer from "@mui/material/Drawer";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ReservationDialog from "./ReservationDialog";
 
 export const Nav = () => {
 
@@ -27,11 +28,12 @@ export const Nav = () => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
     const router = useRouter();
     const [anChorEI, setAnchorEI] = useState(null);
+    const [reservationOpen, setReservationOpen] = useState(false);
 
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-    const  toggleMobileDrawer = (open) => (event) => {
-        if(event.type === "keydown" && (event.key === "Tab" || event.key ==="Shift")){
-            return ;
+    const toggleMobileDrawer = (open) => (event) => {
+        if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
+            return;
 
         }
         setMobileDrawerOpen(open);
@@ -41,6 +43,13 @@ export const Nav = () => {
     }
     const handleClose = () => {
         setAnchorEI(null);
+    }
+
+    const handleReservationOpen = () => {
+        setReservationOpen(true);
+    }
+    const handleReservationClose = () => {
+        setReservationOpen(false);
     }
     const menuItem = (
         <>
@@ -168,6 +177,7 @@ export const Nav = () => {
                     }}><LoginIcon fontSize={isSmallScreen ? "small" : "medium"} /></IconButton>
 
                     <Button
+                        onClick={handleReservationOpen}
                         variant="contained"
                         sx={{
                             backgroundColor: "#e60000",
@@ -186,6 +196,7 @@ export const Nav = () => {
                     {
                         isSmallScreen && (
                             <Button
+                                onClick={handleReservationOpen}
                                 sx={{
                                     backgroundColor: "#e60000", color: "white",
                                     borderRadius: "22px", padding: "0.3rem 0.8rem", fontSize: "0.7rem", "&:hover": { backgroundColor: "#e60000" }
@@ -199,34 +210,39 @@ export const Nav = () => {
                 </Box>
             </Box>
 
-            <Drawer  anchor="left" open={mobileDrawerOpen} onClose={toggleMobileDrawer(false)} >
-                <Box sx={{width: "250"}} role="presentation" onClick={toggleMobileDrawer(false)} onKeyDown={toggleMobileDrawer(false)}>
+            <Drawer anchor="left" open={mobileDrawerOpen} onClose={toggleMobileDrawer(false)} >
+                <Box sx={{ width: "250" }} role="presentation" onClick={toggleMobileDrawer(false)} onKeyDown={toggleMobileDrawer(false)}>
                     <List>
                         <ListItemText>
                             <Link href="/">Home</Link>
                         </ListItemText>
                     </List>
 
-                      <List>
+                    <List>
                         <ListItemText>
                             <Link href="/about">about</Link>
                         </ListItemText>
                     </List>
 
 
-                      <List>
+                    <List>
                         <ListItemText>
                             <Link href="/contact">contact</Link>
                         </ListItemText>
                     </List>
 
-                      <List>
+                    <List>
                         <ListItemText>
                             <Link href="/">Home</Link>
                         </ListItemText>
                     </List>
                 </Box>
             </Drawer>
+
+            <ReservationDialog
+                open={reservationOpen}
+                onClose={handleReservationClose}
+            />
         </Box>
     )
 }
