@@ -115,6 +115,7 @@ const RegisterPage = () => {
         } catch (error) {
             toast.error("an error occurred while registering");
             setError("Registration faled");
+            console.log(error);
         } finally {
             setIsSubmitting(false);
         }
