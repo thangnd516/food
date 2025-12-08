@@ -8,7 +8,6 @@ export async function POST() {
 
     await dbConect();
 
-
     try {
         const body = await req.json();
         const { name, email, password } = body;

@@ -1,54 +1,55 @@
-"use client"
-import { styles } from './navbarStyle';
+"use client";
+
 import Box from "@mui/material/Box";
-import { Typography, IconButton } from '@mui/material';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import XIcon from '@mui/icons-material/X';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import EmailIcon from '@mui/icons-material/Email';
-export default function NavBar() {
-    return (
-        <Box component="nav" sx={styles.navbarContainer}>
-            <Box sx={styles.contentWrapper} >
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 
-                {/* LEFT SIDE */}
-                <Box sx={styles.leftContact}>
-                    <Box sx={styles.contactItem}>
-                        <IconButton size='small' sx={styles.iconButton}>
-                            <LocalPhoneIcon />
-                        </IconButton>
-                        <Typography variant='body2' sx={styles.contactText}>
-                            +8401100011
-                        </Typography>
-                    </Box>
+import EmailIcon from "@mui/icons-material/Email";
 
-                    <Box sx={styles.contactItem}>
-                        <IconButton size='small' sx={styles.iconButton}>
-                            <EmailIcon />
-                        </IconButton>
-                        <Typography variant='body2' sx={styles.contactText}>
-                            Text@gmail.com
-                        </Typography>
-                    </Box>
-                </Box>
+import { styles } from "./navbarStyles";
 
-                {/* RIGHT SIDE */}
-                <Box sx={styles.socialIcons}>
-                    <IconButton sx={styles.iconButton}>
-                        <FacebookIcon />
-                    </IconButton>
+export default function Navbar() {
+  return (
+    <Box component="nav" sx={styles.navbarContainer}>
+      <Box sx={styles.contentWrapper}>
+       
+        <Box sx={styles.contactInfo}>
+          <Box sx={styles.contactItem}>
+            <IconButton size="small" sx={styles.iconButton}>
+              <PhoneInTalkIcon />
+            </IconButton>
+            <Typography variant="body2" sx={styles.contactText}>
+              +1234567890
+            </Typography>
+          </Box>
 
-                    <IconButton sx={styles.iconButton}>
-                        <InstagramIcon />
-                    </IconButton>
-
-                    <IconButton sx={styles.iconButton}>
-                        <XIcon />
-                    </IconButton>
-                </Box>
-            </Box>
+          <Box sx={styles.contactItem}>
+            <IconButton size="small" sx={styles.iconButton}>
+              <EmailIcon />
+            </IconButton>
+            <Typography variant="body2" sx={styles.contactText}>
+              test@gmail.com
+            </Typography>
+          </Box>
         </Box>
 
-    )
+ 
+        <Box sx={styles.socialIcons}>
+          <IconButton sx={styles.iconButton} aria-label="Facebook">
+            <FacebookIcon />
+          </IconButton>
+          <IconButton sx={styles.iconButton} aria-label="Instagram">
+            <InstagramIcon />
+          </IconButton>
+          <IconButton sx={styles.iconButton} aria-label="Twitter">
+            <TwitterIcon />
+          </IconButton>
+        </Box>
+      </Box>
+    </Box>
+  );
 }
