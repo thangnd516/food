@@ -5,6 +5,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
+    Avatar,
     Box,
     Button,
     IconButton,
@@ -21,6 +22,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ReservationDialog from "./ReservationDialog";
+import { useSession } from 'next-auth/react';
 
 export const Nav = () => {
 
@@ -29,7 +31,7 @@ export const Nav = () => {
     const router = useRouter();
     const [anChorEI, setAnchorEI] = useState(null);
     const [reservationOpen, setReservationOpen] = useState(false);
-
+    const { data: session } = useSession();
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
     const toggleMobileDrawer = (open) => (event) => {
         if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -37,6 +39,13 @@ export const Nav = () => {
 
         }
         setMobileDrawerOpen(open);
+    }
+    const handleAuthIconClick = () => {
+        if (session && session?.user) {
+              router.push(`/dashboard/${session?.user?.role}`) 
+        }else {
+            router.push('/login')
+        }
     }
     const handleClick = (event) => {
         setAnchorEI(event.currentTarget)
@@ -171,10 +180,28 @@ export const Nav = () => {
                         color: "red", marginRight: "0.5rem"
                         , "&:hover": { backgroundColor: "#e60000", color: "white" },
                     }}><CompareIcon fontSize={isSmallScreen ? "small" : "medium"} /></IconButton>
-                    <IconButton sx={{
+                    <IconButton onClick={handleAuthIconClick} sx={{
                         color: "red", marginRight: "0.5rem"
                         , "&:hover": { backgroundColor: "#e60000", color: "white" },
-                    }}><LoginIcon fontSize={isSmallScreen ? "small" : "medium"} /></IconButton>
+                    }}>
+                        {
+                            session?.user ? (
+                                session.user.image ? (
+                                    <Avatar src={session.user.image} sx={{
+                                        width: isSmallScreen ? 24 : 32,
+                                        height: isSmallScreen ? 24 : 32
+                                    }} alt='user profile' />
+                                    // eslint-disable-next-line react/jsx-no-undef
+                                ) : (<PersonIcon fontSize={isSmallScreen ? "small" : "medium"} />)
+
+
+                            ) : (
+
+                                <LoginIcon fontSize={isSmallScreen ? "small" : "medium"} />
+                            )
+                        }
+
+                    </IconButton>
 
                     <Button
                         onClick={handleReservationOpen}
