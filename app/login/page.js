@@ -67,13 +67,14 @@ const LoginPage = () => {
       const result = await signIn("credentials", {
         redirect: false,
         email,
-        password,
+        password
       });
+
 
       console.log("result", result);
 
       if (!result?.error) {
-     
+
         toast.success("login successfull");
 
         router.push("/");
@@ -227,6 +228,7 @@ const LoginPage = () => {
                         checked={rememberMe}
                         onChange={(e) => setRememberMe(e.target.checked)}
                         color="primary"
+                        name="remember"
                       />
                     }
                     label="Remember me"
@@ -302,7 +304,7 @@ const LoginPage = () => {
                 <SocialButtonsContainer>
                   <GoogleButton
 
-onClick={() => signIn("google" , {callbackUrl:"/"}   )}
+                    onClick={() => signIn("google", { callbackUrl: "/" })}
 
                     variant="contained"
                     startIcon={<Google />}
