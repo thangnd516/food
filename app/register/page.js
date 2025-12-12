@@ -94,7 +94,7 @@ const RegisterPage = () => {
         }
 
         try {
-            const response = await fetch(`${process.env.API}/register`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -104,14 +104,13 @@ const RegisterPage = () => {
 
             const data = await response.json();
 
-            if (!response.ok) {
-                toast.success(" registration successfull")
-                toast.success(data?.msg);
-
+            if (response.ok) {
+                toast.success("Registration successful");
                 router.push("/login");
             } else {
-                toast.error(data?.err);
+                toast.error(data?.err || "Registration failed");
             }
+
         } catch (error) {
             toast.error("an error occurred while registering");
             setError("Registration faled");
