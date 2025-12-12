@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ReservationDialog from "./ReservationDialog";
 import { useSession } from 'next-auth/react';
+import PersonIcon from "@mui/icons-material/Person";   
 
 export const Nav = () => {
 
@@ -191,7 +192,6 @@ export const Nav = () => {
                                         width: isSmallScreen ? 24 : 32,
                                         height: isSmallScreen ? 24 : 32
                                     }} alt='user profile' />
-                                    // eslint-disable-next-line react/jsx-no-undef
                                 ) : (<PersonIcon fontSize={isSmallScreen ? "small" : "medium"} />)
 
 
