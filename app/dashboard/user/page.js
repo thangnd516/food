@@ -1,11 +1,13 @@
-import React from 'react'
+"use client";
 
-const Home = () => {
+import VerticalTabs from "@/components/dashboard/user/VerticalTabs";
+import Dashboard from "../../../components/dashboard/user/dashboard";
+// import Dashboard from "@/components/dashboard/user/Dashboard";
+
+export default function Home() {
   return (
-    <div>
-      <h1>user home page </h1>
-    </div>
-  )
+    <VerticalTabs>
+      <Dashboard />
+    </VerticalTabs>
+  );
 }
-
-export default Home
