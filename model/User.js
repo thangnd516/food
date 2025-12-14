@@ -19,8 +19,19 @@ const UserSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
-}, {
-  timestamps: true,
-});
+  resetCode: {
+    data: String,
+    expiresAt: {
+      type: Date,
+      default: () => new Date(Date.now() + 10 * 60 * 1000), // 10
+      // minutes in milliseconds
+    },
+  },
+},
+
+
+  {
+    timestamps: true,
+  });
 
 export default mongoose.models.User || mongoose.model('User', UserSchema);
