@@ -303,7 +303,6 @@ const LoginPage = () => {
               <Box display="flex" justifyContent="center" mt={2}>
                 <SocialButtonsContainer>
                   <GoogleButton
-
                     onClick={() => signIn("google", { callbackUrl: "/" })}
 
                     variant="contained"

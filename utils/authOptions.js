@@ -1,10 +1,18 @@
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import User from "@/model/user";
 import bcrypt from "bcrypt";
 import dbConnect from "./dbConnect";
 
 export const authOptions = {
   providers: [
+    // 🔹 LOGIN GOOGLE
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+
+    // 🔹 LOGIN EMAIL / PASSWORD
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -12,43 +20,61 @@ export const authOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        try {
-          await dbConnect();
+        await dbConnect();
 
-          // Kiểm tra credentials
-          if (!credentials?.email || !credentials?.password) {
-            throw new Error("Please provide email and password");
-          }
-
-          // Tìm user
-          const user = await User.findOne({ email: credentials.email });
-          if (!user) {
-            throw new Error("No user found with this email");
-          }
-
-          // So sánh password
-          const isMatch = await bcrypt.compare(credentials.password, user.password);
-          if (!isMatch) {
-            throw new Error("Invalid password");
-          }
-
-          // Return user object
-          return {
-            id: user._id.toString(),
-            email: user.email,
-            name: user.name,
-            role: user.role,
-          };
-
-        } catch (error) {
-          console.error("Auth error:", error);
-          throw new Error(error.message || "Authentication failed");
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Missing email or password");
         }
+
+        const user = await User.findOne({ email: credentials.email });
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        const isMatch = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+
+        if (!isMatch) {
+          throw new Error("Invalid password");
+        }
+
+        return {
+          id: user._id.toString(),
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        };
       }
-    })
+    }),
   ],
 
   callbacks: {
+    async signIn({ user, account }) {
+      // 👉 XỬ LÝ USER GOOGLE LẦN ĐẦU LOGIN
+      if (account.provider === "google") {
+        await dbConnect();
+
+        let existingUser = await User.findOne({ email: user.email });
+
+        if (!existingUser) {
+          existingUser = await User.create({
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            role: "user",
+            provider: "google",
+          });
+        }
+
+        user.id = existingUser._id.toString();
+        user.role = existingUser.role;
+      }
+
+      return true;
+    },
+
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -57,18 +83,17 @@ export const authOptions = {
       }
       return token;
     },
+
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.role = token.role;
-        session.user.name = token.name;
-      }
+      session.user.id = token.id;
+      session.user.role = token.role;
+      session.user.name = token.name;
       return session;
     }
   },
 
   pages: {
-    signIn: '/login', // Trang login custom (nếu có)
+    signIn: "/login",
   },
 
   session: {
