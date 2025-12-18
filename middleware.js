@@ -4,12 +4,12 @@ import { NextResponse } from "next/server";
 export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
-    const role = token?.role;
+    const role = token?.role?.toLowerCase();
     const pathname = req.nextUrl.pathname;
 
     // ⛔ User cố vào trang admin
     if (pathname.startsWith("/dashboard/admin") && role !== "admin") {
-      return NextResponse.redirect(new URL("/", req.url));
+      return NextResponse.redirect(new URL("/403", req.url));
     }
 
     // ⛔ Admin cố vào trang user
