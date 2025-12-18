@@ -21,3 +21,40 @@ export async function PUT(req, context) {
     }
 }
 
+export async function DELETE(req, context) {
+    await dbConnect();
+    const { id } = await context.params
+
+    try {
+
+        const deletingSlider = await Slider.findByIdAndDelete(id)
+
+        return NextResponse.json(deletingSlider)
+
+
+    } catch (error) {
+        return NextResponse.json({ err: err.message }, { status: 500 })
+    }
+}
+
+export async function GET(req, context) {
+    await dbConnect();
+    const { id } = await context.params
+
+    try {
+
+        const slider = await Slider.findById(id)
+        if (!slider) {
+            return NextResponse.json({ err: "slider not found " }, { status: 404 })
+        }
+
+        return NextResponse.json(slider)
+
+
+    } catch (error) {
+        return NextResponse.json({ err: err.message }, { status: 500 })
+    }
+}
+
+
+
