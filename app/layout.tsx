@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
+import { store } from "./store";
+import { Provider } from "react-redux";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,14 +27,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SessionProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <ToastContainer />
-          <TopNav />
-          <Nav />
-          {children}
-        </body>
+        <Provider store={store}>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+            <ToastContainer />
+            <TopNav />
+            <Nav />
+            {children}
+          </body>
+        </Provider>
+
       </SessionProvider>
     </html>
   );
