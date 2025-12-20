@@ -3,7 +3,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import sliderReducer from "@/slice/sliderSlice";
-// import categoryReducer from "@/slice/categorySlice";
+import categoryReducer from "@/slice/categorySlice";
 // import productReducer from "@/slice/productSlice";
 // import cartReducer from "@/slice/cartSlice";
 // import deliveryAreaReducer from "@/slice/deliveryAreaSlice";
@@ -17,7 +17,7 @@ export const store = configureStore({
 
     sliders: sliderReducer,
 
-    // categories: categoryReducer,
+    categories: categoryReducer,
 
     // products: productReducer,
 
