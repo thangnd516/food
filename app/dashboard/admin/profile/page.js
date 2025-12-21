@@ -1,10 +1,7 @@
-"use client"
-import VertivalTabs from "@/components/dashboard/user/VerticalTabs";
+"use client";
 
-import PersonolInfo from "@/components/dashboard/user/profile/PersonolInfo";
+import ProfilePage from "@/components/dashboard/admin/profile/PersonalInfo";
 
 export default function DashboardPage() {
-  return (
-      <PersonolInfo/>
-  );
+  return <ProfilePage />;
 }
