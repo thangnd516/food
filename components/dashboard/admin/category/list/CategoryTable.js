@@ -47,7 +47,7 @@ import {
   mobileLabelStyles,
 } from "./categoryTableStyles";
 
-const CategoryTable = ({ categories, onEdit }) => {
+const CategoryTable = ({ categories=[], onEdit }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
 
@@ -70,11 +70,15 @@ const CategoryTable = ({ categories, onEdit }) => {
     setDeleteConfirmOpen(true);
   };
 
-  const handleConfirmDelete = () => {
-    dispatch(deleteCategory(categoryToDelete));
+const handleConfirmDelete = async () => {
+  try {
+    await dispatch(deleteCategory(categoryToDelete)).unwrap();
+  } finally {
     setDeleteConfirmOpen(false);
     setCategoryToDelete(null);
-  };
+  }
+};
+
 
   const paginatedCategories = categories.slice(
     (page - 1) * rowsPerPage,
@@ -85,7 +89,7 @@ const CategoryTable = ({ categories, onEdit }) => {
     return (
       <Box sx={tableContainerStyles}>
         {paginatedCategories.map((category) => (
-          <Box key={category._id} sx={mobileRowStyles}>
+          <Box key={category?._id ?? Math.random()} sx={mobileRowStyles}>
             <Box sx={mobileCellStyles}>
               <Typography sx={mobileLabelStyles}>Name</Typography>
               <Typography>{category.name}</Typography>
@@ -93,7 +97,7 @@ const CategoryTable = ({ categories, onEdit }) => {
             <Box sx={mobileCellStyles}>
               <Typography sx={mobileLabelStyles}>Status</Typography>
               <Box sx={statusStyles(category.status)}>
-                {category.status ? "Active" : "Inactive"}
+                {category?.status ? "Active" : "Inactive"}
                 {category.show_at_home && (
                   <Chip
                     icon={<HomeIcon fontSize="small" />}
@@ -179,13 +183,13 @@ const CategoryTable = ({ categories, onEdit }) => {
                 <TableCell sx={responsiveCellStyles}>{category?.slug}</TableCell>
                 <TableCell>
                   <Box sx={statusStyles(category?.status)}>
-                    {category.status ? "Active" : "Inactive"}
+                    {category?.status ? "Active" : "Inactive"}
                   </Box>
                 </TableCell>
                 <TableCell>
                   <Chip
                     icon={<HomeIcon fontSize="small" />}
-                    label={category.show_at_home ? "Yes" : "No"}
+                    label={category?.show_at_home ? "Yes" : "No"}
                     size="small"
                     sx={statusStyles(category?.show_at_home)}
                   />
@@ -193,7 +197,7 @@ const CategoryTable = ({ categories, onEdit }) => {
                 <TableCell align="right">
                   <IconButton
                     size="small"
-            onClick={() => onEdit(category._id)}
+                    onClick={() => onEdit(category._id)}
                     sx={actionButtonStyles}
                     color="secondary"
                   >
