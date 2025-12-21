@@ -1,15 +1,11 @@
 
 
 
-import { NextResponse } from "next/server";
+import User from "@/model/user";
 import dbConnect from "@/utils/dbConnect";
-import Product from "@/model/product";
-import User from "@/model/user"
-import bcrypt from "bcrypt"
-import { authOptions } from "@/utils/authOptions";
-import { getSetverSession } from "next-auth/next";
+import bcrypt from "bcrypt";
 import { getToken } from "next-auth";
-import { error } from "console";
+import { NextResponse } from "next/server";
 
 export async function POST() {
     await dbConnect();
