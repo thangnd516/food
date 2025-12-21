@@ -7,7 +7,7 @@ export const fetchSliderById = createAsyncThunk(
 
   async (id) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/sliders/${id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/sliders/${id}`);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch slider ${response.status}`);
@@ -27,7 +27,7 @@ export const fetchSliders = createAsyncThunk(
 
   async () => {
     try {
-      const response = await fetch(`${process.env.API}/admin/sliders`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/sliders`);
 
       console.log("response", response);
       if (!response.ok) {
@@ -48,7 +48,7 @@ export const fetchHomeSliders = createAsyncThunk(
 
   async () => {
     try {
-      const response = await fetch(`${process.env.API}/sliders`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/sliders`);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch sliders ${response.status}`);
@@ -68,7 +68,7 @@ export const createSlider = createAsyncThunk(
 
   async (sliderData) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/sliders`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/sliders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export const updateSlider = createAsyncThunk(
 
   async ({ id, sliderData }) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/sliders/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/sliders/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ export const deleteSlider = createAsyncThunk(
 
   async (id) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/sliders/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/sliders/${id}`, {
         method: "DELETE",
       });
 
