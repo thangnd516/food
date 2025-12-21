@@ -7,7 +7,7 @@ export const fetchCategoryById = createAsyncThunk(
   "categories/fetchCategoryById",
   async (id) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/categories/${id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/categories/${id}`);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch category ${response.status}`);
@@ -26,7 +26,7 @@ export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
   async () => {
     try {
-      const response = await fetch(`${process.env.API}/admin/categories`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/categories`);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch categories ${response.status}`);
@@ -44,12 +44,13 @@ export const fetchHomeCategories = createAsyncThunk(
   "categories/fetchHomeCategories",
   async () => {
     try {
-      const response = await fetch(`${process.env.API}/categories`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API}/categories`
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to fetch categories ${response.status}`);
       }
-
       return await response.json();
     } catch (error) {
       toast.error(`error loading categories ${error.message}`);
@@ -63,7 +64,7 @@ export const createCategory = createAsyncThunk(
   "categories/createCategory",
   async (categoryData) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/categories`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/categories`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,6 +79,7 @@ export const createCategory = createAsyncThunk(
       const data = await response.json();
 
       toast.success("category created  successfully");
+      return data
     } catch (error) {
       toast.error(`error creating category ${error.message}`);
 
@@ -87,11 +89,11 @@ export const createCategory = createAsyncThunk(
 );
 
 export const updateCategory = createAsyncThunk(
-  "category/updateCategory",
+  "categories/updateCategory",
   async ({ id, categoryData }) => {
     try {
       const response = await fetch(
-        `${process.env.API}/admin/categories/${id}`,
+        `${process.env.NEXT_PUBLIC_API}/admin/categories/${id}`,
         {
           method: "PUT",
           headers: {
@@ -121,7 +123,7 @@ export const deleteCategory = createAsyncThunk(
   async (id) => {
     try {
       const response = await fetch(
-        `${process.env.API}/admin/categories/${id}`,
+        `${process.env.NEXT_PUBLIC_API}/admin/categories/${id}`,
         { method: "DELETE" }
       );
 
@@ -278,4 +280,4 @@ const categorySlice = createSlice({
 });
 
 
-  export default  categorySlice.reducer
+export default categorySlice.reducer
