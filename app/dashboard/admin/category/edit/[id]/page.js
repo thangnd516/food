@@ -32,7 +32,7 @@ const EditCategoryPage = () => {
         console.log("category single data", data);
         setCategoryData(data);
       } catch (error) {
-        router.push("/dashboard/admin/category");
+        router.push("/dashboard/admin/category/list");
       } finally {
         setLoading(false);
       }
