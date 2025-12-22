@@ -4,7 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import sliderReducer from "@/slice/sliderSlice";
 import categoryReducer from "@/slice/categorySlice";
-// import productReducer from "@/slice/productSlice";
+import productReducer from "@/slice/productSlice";
 // import cartReducer from "@/slice/cartSlice";
 // import deliveryAreaReducer from "@/slice/deliveryAreaSlice";
 // import couponReducer from "@/slice/couponSlice";
@@ -19,7 +19,7 @@ export const store = configureStore({
 
     categories: categoryReducer,
 
-    // products: productReducer,
+    products: productReducer,
 
     // cart: cartReducer,
 
