@@ -5,7 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import sliderReducer from "@/slice/sliderSlice";
 import categoryReducer from "@/slice/categorySlice";
 import productReducer from "@/slice/productSlice";
-// import cartReducer from "@/slice/cartSlice";
+import cartReducer from "@/slice/cartSlice";
 // import deliveryAreaReducer from "@/slice/deliveryAreaSlice";
 // import couponReducer from "@/slice/couponSlice";
 // import addressReducer from "@/slice/addressSlice";
@@ -21,7 +21,7 @@ export const store = configureStore({
 
     products: productReducer,
 
-    // cart: cartReducer,
+    cart: cartReducer,
 
     // coupons: couponReducer,
 
