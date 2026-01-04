@@ -7,7 +7,7 @@ import categoryReducer from "@/slice/categorySlice";
 import productReducer from "@/slice/productSlice";
 import cartReducer from "@/slice/cartSlice";
 // import deliveryAreaReducer from "@/slice/deliveryAreaSlice";
-// import couponReducer from "@/slice/couponSlice";
+import couponReducer from "@/slice/couponSlice";
 // import addressReducer from "@/slice/addressSlice";
 // import reservationTime from "@/slice/reservationtimeSlice";
 // import userdeliveryAreaReducer from "@/slice/userdeliveryAreaSlice";
@@ -23,7 +23,7 @@ export const store = configureStore({
 
     cart: cartReducer,
 
-    // coupons: couponReducer,
+    coupons: couponReducer,
 
     // deliveryAreas: deliveryAreaReducer,
 
