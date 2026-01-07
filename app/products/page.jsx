@@ -35,9 +35,13 @@ const ProductsPage = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/products");
+      const res = await fetch("/api/products", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const data = await res.json();
-      
+
       if (data.success) {
         setProducts(data.data);
         setFilteredProducts(data.data);
