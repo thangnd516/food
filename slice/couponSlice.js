@@ -7,7 +7,7 @@ export const fetchCouponById = createAsyncThunk(
   "coupons/fetchCouponById",
   async (id) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/coupons/${id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/coupons/${id}`);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch coupon ${response.status}`);
@@ -26,7 +26,7 @@ export const fetchCoupons = createAsyncThunk(
   "coupons/fetchCoupons",
   async () => {
     try {
-      const response = await fetch(`${process.env.API}/admin/coupons`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/coupons`);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch Coupons ${response.status}`);
@@ -46,7 +46,7 @@ export const fetchCoupons = createAsyncThunk(
 //   "categories/fetchHomeCategories",
 //   async () => {
 //     try {
-//       const response = await fetch(`${process.env.API}/categories`);
+//       const response = await fetch(`${process.env.NEXT_PUBLIC_API}/categories`);
 
 //       if (!response.ok) {
 //         throw new Error(`Failed to fetch categories ${response.status}`);
@@ -69,7 +69,7 @@ export const createCoupon = createAsyncThunk(
   "coupons/createCoupon",
   async (couponData) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/coupons`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/coupons`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ export const updateCoupon= createAsyncThunk(
   async ({ id, couponData }) => {
     try {
       const response = await fetch(
-        `${process.env.API}/admin/coupons/${id}`,
+        `${process.env.NEXT_PUBLIC_API}/admin/coupons/${id}`,
         {
           method: "PUT",
           headers: {
@@ -127,7 +127,7 @@ export const deleteCoupon = createAsyncThunk(
   async (id) => {
     try {
       const response = await fetch(
-        `${process.env.API}/admin/coupons/${id}`,
+        `${process.env.NEXT_PUBLIC_API}/admin/coupons/${id}`,
         { method: "DELETE" }
       );
 
