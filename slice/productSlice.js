@@ -6,7 +6,7 @@ export const fetchProductById = createAsyncThunk(
   "products/fetchProductById",
   async (id) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/products/${id}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/products/${id}`);
 
       if (!response.ok) {
         throw new Error(`failed to fetch product ${response.status}`);
@@ -26,7 +26,7 @@ export const fetchProducts = createAsyncThunk(
 
   async () => {
     try {
-      const response = await fetch(`${process.env.API}/admin/products`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/products`);
 
       if (!response.ok) {
         throw new Error(`failed to fetch products ${response.status}`);
@@ -45,7 +45,7 @@ export const fetchHomeProducts = createAsyncThunk(
 
   async () => {
     try {
-      const response = await fetch(`${process.env.API}/products`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/products`);
 
       if (!response.ok) {
         throw new Error(`failed to fetch products ${response.status}`);
@@ -65,7 +65,7 @@ export const createProduct = createAsyncThunk(
 
   async (prodcutData) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/products`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export const updateProudct = createAsyncThunk(
  console.log({ id,productData})
 
     try {
-      const response = await fetch(`${process.env.API}/admin/products/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/products/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +129,7 @@ export const deleteProduct = createAsyncThunk(
 
   async (id) => {
     try {
-      const response = await fetch(`${process.env.API}/admin/products/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API}/admin/products/${id}`, {
         method: "DELETE",
       });
 
