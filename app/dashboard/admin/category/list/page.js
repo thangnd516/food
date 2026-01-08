@@ -1,4 +1,3 @@
-// app/dashboard/categories/page.jsx
 "use client";
 import CategoryTable from "@/components/dashboard/admin/category/list/CategoryTable";
 import React, { useEffect } from "react";
@@ -10,10 +9,20 @@ import { useRouter } from "next/navigation";
 const CategoriesPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { list: categories, loading } = useSelector((state) => state.categories);
+
+  const { list: categories = [], loading } = useSelector(
+    (state) => state.categories
+  );
 
   useEffect(() => {
-    dispatch(fetchCategories());
+    const load = async () => {
+      try {
+        await dispatch(fetchCategories()).unwrap();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    load();
   }, [dispatch]);
 
   const handleEdit = (id) => {
@@ -22,26 +31,11 @@ const CategoriesPage = () => {
 
   return (
     <Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          mb: 3,
-        }}
-      >
-        <Typography variant="h5" component="h1">
-          Categories Management
-        </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
+        <Typography variant="h5">Categories Management</Typography>
         <Button
           variant="contained"
-          sx={{
-            color: "white",
-            backgroundColor: "red",
-            "&:hover": {
-              backgroundColor: "darkred"
-            }
-          }}
+          sx={{ backgroundColor: "red", "&:hover": { backgroundColor: "darkred" } }}
           onClick={() => router.push("/dashboard/admin/category/create")}
         >
           Add New Category
@@ -51,10 +45,7 @@ const CategoriesPage = () => {
       {loading ? (
         <Box>Loading...</Box>
       ) : (
-        <CategoryTable
-          categories={categories}
-          onEdit={handleEdit}
-        />
+        <CategoryTable categories={categories} onEdit={handleEdit} />
       )}
     </Box>
   );
