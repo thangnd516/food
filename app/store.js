@@ -6,11 +6,11 @@ import sliderReducer from "@/slice/sliderSlice";
 import categoryReducer from "@/slice/categorySlice";
 import productReducer from "@/slice/productSlice";
 import cartReducer from "@/slice/cartSlice";
-// import deliveryAreaReducer from "@/slice/deliveryAreaSlice";
+import deliveryAreaReducer from "@/slice/deliveryAreaSlice";
 import couponReducer from "@/slice/couponSlice";
-// import addressReducer from "@/slice/addressSlice";
+import addressReducer from "@/slice/addressSlice";
 // import reservationTime from "@/slice/reservationtimeSlice";
-// import userdeliveryAreaReducer from "@/slice/userdeliveryAreaSlice";
+import userdeliveryAreaReducer from "@/slice/userdeliveryAreaSlice";
 export const store = configureStore({
   reducer: {
     // reservationTimes: reservationTime,
@@ -25,10 +25,10 @@ export const store = configureStore({
 
     coupons: couponReducer,
 
-    // deliveryAreas: deliveryAreaReducer,
+    deliveryAreas: deliveryAreaReducer,
 
-    // addresses: addressReducer,
+    addresses: addressReducer,
 
-    // userdeliveryAreas: userdeliveryAreaReducer,
+    userdeliveryAreas: userdeliveryAreaReducer,
   },
 });
