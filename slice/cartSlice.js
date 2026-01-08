@@ -8,7 +8,7 @@ export const addToCart = createAsyncThunk(
 
   async (payload, { dispatch }) => {
     try {
-      const res = await fetch(`${process.env.API}/user/add-to-cart`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API}/user/add-to-cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export const fetchCart = createAsyncThunk(
 
   async () => {
     try {
-      const res = await fetch(`${process.env.API}/user/add-to-cart`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API}/user/add-to-cart`);
 
       const data = await res.json();
 
@@ -58,7 +58,7 @@ export const removeFromCart = createAsyncThunk(
 
   async (itemId, { dispatch }) => {
     try {
-      const res = await fetch(`${process.env.API}/user/cart/${itemId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API}/user/cart/${itemId}`, {
         method: "DELETE",
       });
 
