@@ -9,8 +9,10 @@ import { NextResponse } from "next/server";
 
 import DeliveryArea from "@/model/deliveryarea";
 import Coupon from "@/model/coupon";
-import { type } from "os";
 
+
+import Stripe from "stripe";
+const stripeInstance = new Stripe()
 
 export async function validateDeliveryFee(deliveryAreaId, clientFee) {
     const area = await DeliveryArea.findById(deliveryAreaId);
@@ -166,10 +168,83 @@ export async function POST() {
         const deliveryFee = await validateDeliveryFee(address.delivery_area_id?._id || address.delivery_area_id, clientDeliveryFee);
         //3 validate coupon applied
         const { discount: serverDiscount, couponData } = await validateCoupon(couponCode, userId, serverSubtotal, clientTotalDiscount);
+        const serverTotal = serverSubtotal - serverDiscount + deliveryFee;
+        if (Math.abs(clientSubtotal - serverSubtotal) > 0.01
+        ) {
+            return NextResponse.json(
+                { message: "Validation failed" },
+                { status: 400 }
+            );
+        }
+        const newOrder = new Orders({
+            invoice_id: generateInvoiceId(),
+            user_id: userId,
+            address: address,
+            discount: serverDiscount,
+            delivery_charge: deliveryFee,
+            subtotal: serverSubtotal,
+            grand_total: serverTotal,
+            product_qty: cartItems.reduce((sum, item) => sum + (item.quantity), 0),
+            payment_method: "stripe",
+            payment_status: "pending",
+            transaction_id: null,
+            payment_approve_date: new Date(),
+            coupon_info: couponData || {},
+            currency_name: "INR",
+            order_status: "pending"
+        })
+
+        await newOrder.save();
+        await Promise.all(validatedItems.map(async (item) => {
+            new OrderItem({
+                order_id: newOrder._id,
+                product_id: item.product._id,
+                product_name: item.product.name,
+                unit_price: item.unitPrice,
+                qty: item.quantity,
+                product_size: item.size || null,
+                product_options: item.options.length > 0 ? item.options : null,
+            })
+        })).save();
+
+        const stripeSession = await stripeInstance.checkout.sessions.create({
+            mode: "payment",
+
+            line_items: [
+                {
+                    price_data: {
+                        currency: "inr", // Stripe dùng lowercase
+                        product_data: {
+                            name: `Order ${newOrder.invoice_id}`,
+                            description: `${cartItems.length} items (₹${serverTotal.toFixed(2)})`,
+                        },
+                        unit_amount: Math.round(serverTotal * 100), // INR → paise
+                    },
+                    quantity: 1,
+                },
+            ],
+            mode: "payment",
+            success_url: `https://localhost:3000/dashboard/user/stripe/order/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `http://localhost:3000/dashboard/user/stripe/order/canceled`,
+            metadata: {
+                order_id: newOrder._id.toString(),
+                amount: serverTotal.toString(),
+                user_id: userId.toString(),
+                coupon_id: couponData?.id.toString() || "",
+            },
+            customer_email: session.user.email,
+        });
+        newOrder.transaction_id = stripeSession.id;
+        await newOrder.save();
+        await Cart.deleteMany({ userId: userId });
+        return NextResponse.json(
+            { url: stripeSession.url },
+            { status: 200 }
+        );
 
     } catch (error) {
         return NextResponse.json(
-            { err: error.message },
+            { error: error.message },
             { status: 500 }
         );
     }
